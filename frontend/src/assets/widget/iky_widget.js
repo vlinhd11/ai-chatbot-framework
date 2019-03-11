@@ -72,7 +72,7 @@
             </div>
             `
 
-            document.body.innerHTML += content;
+            $("body").append(content);
 
             $(".iky_container").hide();
             
@@ -108,7 +108,7 @@
                 // send request to bot
                 payload["input"] = userQuery;
 
-                $.post('http://localhost:8080/gateway/api/v1', JSON.stringify(payload))
+                $.post(config["base_url"]+'gateway/api/v1', JSON.stringify(payload))
                     .done(((response)=>{
                         successRoutes(response);}))
                     .fail((x,t,m)=>{
@@ -153,6 +153,7 @@
                     var parsedResponse = JSON.parse(response);
                     responseObject = parsedResponse.responseData;
                 }
+                payload = responseObject;
                 put_text(responseObject);
             };
 

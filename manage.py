@@ -1,9 +1,9 @@
-
 from flask_script import Manager
 
 from app import app
 
 manager = Manager(app)
+
 
 @manager.command
 def install_nltk_dependencies():
@@ -13,18 +13,22 @@ def install_nltk_dependencies():
     download("wordnet")
     download('averaged_perceptron_tagger')
     download('punkt')
-    print "Done"
+    print ("Done")
+
 
 @manager.command
 def init():
-
     from app.agents.models import Bot
 
-    # create default bot
-    bot = Bot()
-    bot.name = "default"
-    bot.save()
-    print("Created default bot")
+    try:
+        # create default bot
+        bot = Bot()
+        bot.name = "default"
+        bot.save()
+        print("Created default bot")
+    except:
+        print("Default agent exists.. skipping..")
+
 
     # import some default intents
     from app.intents.controllers import import_json
@@ -43,8 +47,6 @@ def init():
             e = "load Data first into mongodb. Reffer Readme."
         print("Could not train models..skipping.. (reason: {})".format(e))
 
+
 if __name__ == "__main__":
     manager.run()
-
-
-
